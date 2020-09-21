@@ -1,7 +1,7 @@
-clear all;
+%clear all;
 
 bild = imread("test_bild2.png");
-gray_img = rgb2gray(bild)/255;
+%gray_img = rgb2gray(bild)/255;
 
 img_size = size(gray_img);
 
@@ -19,13 +19,9 @@ for x = 1:width
            ratio = (height-y)/height;
            if(y == height)
                ratio = 0
-           elseif(y == 1)
-               ratio = 1
-           end
+           
            value = min + (max-min)*ratio;
            list_freq(1,x) = list_freq(1,x) + value;
        end
    end
 end
-
-

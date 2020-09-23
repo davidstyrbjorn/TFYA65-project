@@ -30,14 +30,17 @@ fs = 44100;
 duration = 1;
 t = [0 : 1/fs : duration];
 
-yA = [];
+
+yA = zeros(1,fs);
 for i = size(freq_list, 2)
     yi = sin(2*pi*freq_list(i)*t);
-    temp = cat(1, yA, yi);
+    temp = cat(2, yA, yi);
     yA = temp;
+    
 end
 
-%soundsc(yA, fs);
+ soundsc(yA, fs);
+% sound(yA);
 
 %%
 

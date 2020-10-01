@@ -1,23 +1,25 @@
 [image, map] = imread("triangle.png");
 org_image = image;
 
-fig = figure;
-
-soundsc(yA, fs);
-
-for x = 1:size(image, 2)
-    
-    % We need to fix this either by pre processing all the images with the
-    % lines (dumb solution probably)
+for x = 1:size(image,2)
     image(:,x,1) = 100;
     image(:,x,2) = 0;
     image(:,x,3) = 0;
     
-    % Is there someway to make this faster?
-    imshow(image, 'InitialMagnification', 900);
+    line_images{x} = image;
     
     image = org_image;
-    
+end
+
+soundsc(yA, fs);
+
+for x = 1:size(image, 2)
+    % Is there someway to make this faster?
+    imshow(cell2mat(line_images(x)), 'InitialMagnification', 900);
+    drawnow; % Force display to update imediatly
+        
     pause(3);
-      
-  end
+end
+  
+clf;
+close all;

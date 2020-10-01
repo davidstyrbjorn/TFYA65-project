@@ -1,10 +1,11 @@
 function yA = image_converter(filePath, min_freq, max_freq, sampling_freq)
 
-    % Läser in bilden
+% Läser in bilden
 bild = imread(filePath);
 %Omvandlar bilden till en binär bild.
-gray_img = rgb2gray(bild)/255;
-
+gray_img = rgb2gray(bild);
+threshold = graythresh(gray_img);
+BW = imbinarize(gray_img,threshold);
 
 img_size = size(gray_img);
 
@@ -25,7 +26,7 @@ for x = 1:width
        %den totala frekvensen  adderas med den mista frekvensen plus
        %distansen mellan min och max gånger tiden (linear interpolation)
        %för varje cell av bilden
-       total_freq = total_freq + (min_freq+(max_freq-min_freq)*t) * double(gray_img(y,x));
+       total_freq = total_freq + (min_freq+(max_freq-min_freq)*t) * double(BW(y,x));
    end
    %fyller kolumnerna med den totala frekvensen så att vi kan spela dessa
    %toner efter varandra.

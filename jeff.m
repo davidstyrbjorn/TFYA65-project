@@ -23,3 +23,19 @@ end
   
 clf;
 close all;
+
+%%
+clear all;
+
+ Fs = 4000;
+ t = 0:1/Fs:10;
+ f_in_start = 50;
+ f_in_end = 100;
+ f_in = linspace(f_in_start, f_in_end, length(t));
+ phase_in = cumsum(f_in/Fs);
+ y = sin(2*pi*phase_in);
+ plot(t,y)
+ 
+ 
+ 
+ 

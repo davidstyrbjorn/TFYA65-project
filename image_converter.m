@@ -1,4 +1,4 @@
-function yA = image_converter(filePath, min_freq, max_freq, sampling_freq)
+function yA = image_converter(filePath, min_freq, max_freq, sampling_freq, duration_per_tone)
 
 % Läser in bilden
 bild = imread(filePath);
@@ -39,9 +39,8 @@ clear t;
 clear x;
 clear y;
 
-
 fs = sampling_freq;
-duration = 3;
+duration = duration_per_tone;
 %tiden börjar på noll och slutar på duration (hur långt ljudet ska vara)
 %med samplingsfekvensen fs.
 t = [0 : 1/fs : duration];
@@ -50,11 +49,19 @@ t = [0 : 1/fs : duration];
 yA = [];
 
 %loopar igenom hela frekvenslistan
+%Skapa en smidigare transition mellan tonerna här 
 for i = 1:size(freq_list, 2)
-    %sinusvågorna med frekvensen tagna från frekvenslistan
-    yi = sin(2*pi*freq_list(i)*t);
-    %stoppa in alla sinusvågor i yA (vår samlingslista)
-    yA = cat(2, yA, yi);    
+    if i == size(freq_list,2)
+        yi = sin(2*pi*freq_list(i)*t);
+        yA = cat(2, yA, yi);    
+    else
+        f_in_start = freq_list(i);
+        f_in_end = freq_list(i+1);  
+        f_in = linspace(f_in_start, f_in_end, length(t));
+        phase_in = cumsum(f_in/fs);
+        yi = sin(2*pi*phase_in);
+        yA = cat(2, yA, yi);    
+    end
 end
 
 end
